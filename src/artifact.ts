@@ -179,7 +179,9 @@ export function makeArtifact (material: IType, item: IType | null = null): IArti
 		}
 
 		item.labels.forEach(label => {
-			if (!allLabels.map(l => l.name).includes(label.name)) {
+			const elements:ILabel['name'][] = ['Fire', 'Water', 'Metal', 'None', 'Earth', 'Wood']
+
+			if (!elements.includes(label.name)) {
 				allLabels.push(label)
 			}
 		})
