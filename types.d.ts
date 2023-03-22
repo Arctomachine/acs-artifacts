@@ -82,16 +82,19 @@ interface IArtifact {
 	labels: ILabel[]
 	bonuses: IStats
 	stats: IStats
+	statsAvg: IStats
 	statsMin: IStats
 	statsMax: IStats
 	ratios: {
 		powerToQi: {
 			val: number
+			avg: number
 			min: number
 			max: number
 		}
 		recoveryToQi: {
 			val: number
+			avg: number
 			min: number
 			max: number
 		}

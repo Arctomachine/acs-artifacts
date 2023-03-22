@@ -11,6 +11,7 @@ const BASE_VALUES: IStats = {
 	AttackSpeed: 0.5,
 }
 const BASE_MIN_VALUE = 0.75
+const AVERAGE_VALUE = 0.95
 const BASE_MAX_VALUE = 1.15
 const ITEM_TIER = 12
 const ITEM_QUALITY = 100
@@ -211,8 +212,10 @@ export function makeArtifact (material: IType, item: IType | null = null): IArti
 
 	const statsMin = {} as unknown as IStats
 	const statsMax = {} as unknown as IStats
+	const statsAvg = {} as unknown as IStats
 	const stats: IStats = Object.fromEntries(statKeys.map(statKey => {
 
+		statsAvg[statKey] = calculateStat(BASE_VALUES[statKey], bonuses[statKey], statKey).avg
 		statsMin[statKey] = calculateStat(BASE_VALUES[statKey], bonuses[statKey], statKey).min
 		statsMax[statKey] = calculateStat(BASE_VALUES[statKey], bonuses[statKey], statKey).max
 
@@ -222,16 +225,19 @@ export function makeArtifact (material: IType, item: IType | null = null): IArti
 	const artifact: IArtifact = {
 		bonuses: bonuses,
 		stats: stats,
+		statsAvg: statsAvg,
 		statsMax: statsMax,
 		statsMin: statsMin,
 		ratios: {
 			powerToQi: {
 				val: stats.AttackPower / stats.MaxQi,
+				avg: statsAvg.AttackPower / statsAvg.MaxQi,
 				min: statsMin.AttackPower / statsMax.MaxQi,
 				max: statsMax.AttackPower / statsMin.MaxQi,
 			},
 			recoveryToQi: {
 				val: stats.QiRecovery / stats.MaxQi,
+				avg: statsAvg.QiRecovery / statsAvg.MaxQi,
 				min: statsMin.QiRecovery / statsMax.MaxQi,
 				max: statsMax.QiRecovery / statsMin.MaxQi,
 			},
@@ -251,8 +257,8 @@ function calculateStat (base: number, bonus: number, type?: keyof IStats) {
 	const num = 0.5 + 0.15 * ITEM_TIER + (ITEM_TIER >= 12 ? 0.75 : 0)
 	const num2 = 0.5 + (ITEM_QUALITY / 100) * 0.5
 	const num3 = ITEM_QUALITY >= 90 ? 1.2 : 1
-	let num4, num4min, num4max: number
-	let value, valueMin, valueMax: number
+	let num4, num4min, num4avg, num4max: number
+	let value, valueMin, valueAvg, valueMax: number
 
 	if (type == 'Knockback' || type == 'KnockbackRes' || type == 'AttackSpeed') {
 		num4 = base + bonus
@@ -261,6 +267,7 @@ function calculateStat (base: number, bonus: number, type?: keyof IStats) {
 	}
 
 	num4min = num4 * BASE_MIN_VALUE
+	num4avg = num4 * AVERAGE_VALUE
 	num4max = num4 * BASE_MAX_VALUE
 
 	let compareTo: number
@@ -268,6 +275,7 @@ function calculateStat (base: number, bonus: number, type?: keyof IStats) {
 		case 'TurningSpeed': {
 			compareTo = 80
 			value = Math.max(num4, compareTo)
+			valueAvg = Math.max(num4avg, compareTo)
 			valueMin = Math.max(num4min, compareTo)
 			valueMax = Math.max(num4max, compareTo)
 			break
@@ -276,6 +284,7 @@ function calculateStat (base: number, bonus: number, type?: keyof IStats) {
 		case 'Volume': {
 			compareTo = 0.4
 			value = Math.max(num4, compareTo)
+			valueAvg = Math.max(num4avg, compareTo)
 			valueMin = Math.max(num4min, compareTo)
 			valueMax = Math.max(num4max, compareTo)
 			break
@@ -284,6 +293,7 @@ function calculateStat (base: number, bonus: number, type?: keyof IStats) {
 		case 'AttackSpeed': {
 			compareTo = 0.2
 			value = Math.max(num4, compareTo)
+			valueAvg = Math.max(num4avg, compareTo)
 			valueMin = Math.max(num4min, compareTo)
 			valueMax = Math.max(num4max, compareTo)
 			break
@@ -292,6 +302,7 @@ function calculateStat (base: number, bonus: number, type?: keyof IStats) {
 		case 'AttackPower': {
 			compareTo = 0.4
 			value = Math.max(num4 * Math.max(num * num2 * num3, compareTo), 1)
+			valueAvg = Math.max(num4avg * Math.max(num * num2 * num3, compareTo), 1)
 			valueMin = Math.max(num4min * Math.max(num * num2 * num3, compareTo), 1)
 			valueMax = Math.max(num4max * Math.max(num * num2 * num3, compareTo), 1)
 			break
@@ -300,6 +311,7 @@ function calculateStat (base: number, bonus: number, type?: keyof IStats) {
 		default: {
 			compareTo = 0.4
 			value = num4 * Math.max(num * num2 * num3, compareTo)
+			valueAvg = num4avg * Math.max(num * num2 * num3, compareTo)
 			valueMin = num4min * Math.max(num * num2 * num3, compareTo)
 			valueMax = num4max * Math.max(num * num2 * num3, compareTo)
 			break
@@ -308,6 +320,7 @@ function calculateStat (base: number, bonus: number, type?: keyof IStats) {
 
 	return {
 		val: value,
+		avg: valueAvg,
 		min: valueMin,
 		max: valueMax,
 	}
