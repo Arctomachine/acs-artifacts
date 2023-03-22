@@ -185,6 +185,14 @@ export function makeArtifact (material: IType, item: IType | null = null): IArti
 				allLabels.push(label)
 			}
 		})
+
+		if (item.name === 'Sword of Tao') {
+			const gta = item.labels.find(l=>l.name === 'GreatThing_Attack')
+
+			if (gta) {
+				allLabels.push(gta)
+			}
+		}
 	}
 
 	const bonuses = allLabels.map(l => l.stats).reduce((previousValue, currentValue) => {
