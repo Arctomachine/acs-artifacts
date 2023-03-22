@@ -44,47 +44,47 @@ export function writeArtifactsToFile (artifacts: IArtifact[], pathToFile = './ou
 			item: artifact.item?.name,
 			element: artifact.labels[0].name,
 
-			AttackPower: artifact.stats.AttackPower.toFixed(),
+			AttackPower: artifact.statsAvg.AttackPower.toFixed(),
 			AttackPowerMin: artifact.statsMin.AttackPower.toFixed(),
 			AttackPowerMax: artifact.statsMax.AttackPower.toFixed(),
 
-			QiRecovery: artifact.stats.QiRecovery.toFixed(1),
+			QiRecovery: artifact.statsAvg.QiRecovery.toFixed(1),
 			QiRecoveryMin: artifact.statsMin.QiRecovery.toFixed(1),
 			QiRecoveryMax: artifact.statsMax.QiRecovery.toFixed(1),
 
-			MaxQi: artifact.stats.MaxQi.toFixed(),
+			MaxQi: artifact.statsAvg.MaxQi.toFixed(),
 			MaxQiMin: artifact.statsMin.MaxQi.toFixed(),
 			MaxQiMax: artifact.statsMax.MaxQi.toFixed(),
 
-			powerToQi: artifact.ratios.powerToQi.val.toFixed(3),
+			powerToQi: artifact.ratios.powerToQi.avg.toFixed(3),
 			powerToQiMin: artifact.ratios.powerToQi.min.toFixed(3),
 			powerToQiMax: artifact.ratios.powerToQi.max.toFixed(3),
 
-			recoveryToQi: artifact.ratios.recoveryToQi.val.toFixed(3),
+			recoveryToQi: artifact.ratios.recoveryToQi.avg.toFixed(3),
 			recoveryToQiMin: artifact.ratios.recoveryToQi.min.toFixed(3),
 			recoveryToQiMax: artifact.ratios.recoveryToQi.max.toFixed(3),
 
-			FlyingSpeed: artifact.stats.FlyingSpeed.toFixed(1),
+			FlyingSpeed: artifact.statsAvg.FlyingSpeed.toFixed(1),
 			FlyingSpeedMin: artifact.statsMin.FlyingSpeed.toFixed(1),
 			FlyingSpeedMax: artifact.statsMax.FlyingSpeed.toFixed(1),
 
-			TurningSpeed: artifact.stats.TurningSpeed.toFixed(),
+			TurningSpeed: artifact.statsAvg.TurningSpeed.toFixed(),
 			TurningSpeedMin: artifact.statsMin.TurningSpeed.toFixed(),
 			TurningSpeedMax: artifact.statsMax.TurningSpeed.toFixed(),
 
-			Knockback: artifact.stats.Knockback.toFixed(2),
+			Knockback: artifact.statsAvg.Knockback.toFixed(2),
 			KnockbackMin: artifact.statsMin.Knockback.toFixed(2),
 			KnockbackMax: artifact.statsMax.Knockback.toFixed(2),
 
-			KnockbackRes: artifact.stats.KnockbackRes.toFixed(2),
+			KnockbackRes: artifact.statsAvg.KnockbackRes.toFixed(2),
 			KnockbackResMin: artifact.statsMin.KnockbackRes.toFixed(2),
 			KnockbackResMax: artifact.statsMax.KnockbackRes.toFixed(2),
 
-			Volume: artifact.stats.Volume.toFixed(2),
+			Volume: artifact.statsAvg.Volume.toFixed(2),
 			VolumeMin: artifact.statsMin.Volume.toFixed(2),
 			VolumeMax: artifact.statsMax.Volume.toFixed(2),
 
-			AttackSpeed: artifact.stats.AttackSpeed.toFixed(1),
+			AttackSpeed: artifact.statsAvg.AttackSpeed.toFixed(1),
 			AttackSpeedMin: artifact.statsMin.AttackSpeed.toFixed(1),
 			AttackSpeedMax: artifact.statsMax.AttackSpeed.toFixed(1),
 		}
